@@ -70,6 +70,6 @@ git fetch
 git pull
 
 #Push to git
-git add day$day/*
+git add *
 git commit -m "Day$day"
 git push origin vLabayen

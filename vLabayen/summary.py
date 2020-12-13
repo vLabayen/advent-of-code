@@ -1,5 +1,5 @@
 #!/bin/python3
-from itertools import combinations
+from itertools import combinations, takewhile
 from functools import reduce
 import re
 
@@ -35,3 +35,6 @@ print('\nDay 8:')
 with open('day8/input.txt') as f: print([[reduce(lambda memory,_: [(memory[0] + n*(inst == 'acc'), (memory[1] + 1) if inst != 'jmp' else (memory[1] + n), vinst.append(memory[1])) for inst,n in [instructions[memory[1]]]][0], iter(lambda: len(vinst) > 0 and vinst.count(vinst[-1]) > 1, True), (0, 0, None)) for vinst in [[]]][0] for instructions in [[(line[:3], int(line[4:-1])) for line in f]]][0][0])
 with open('day8/input.txt') as f: print([[rr[0] for rr in [[reduce(lambda memory,_: [(memory[0] + n*(inst == 'acc'), (memory[1] + 1) if inst != 'jmp' else (memory[1] + n), vinst.append((memory[1] + 1) if inst != 'jmp' else (memory[1] + n))) for inst, n in [(__inst, __n) if memory[1] != replace_idx else (replace_inst, __n) for __inst,__n in [instructions[memory[1]]]]][0], iter(lambda: len(vinst) > 0 and (vinst.count(vinst[-1]) > 1 or vinst[-1] >= len(instructions)), True), (0, 0, None)) for vinst in [[]] ][0] for replace_inst,replace_idx in (('nop' if _inst == 'jmp' else 'jmp', _idx) for _idx,(_inst,_n) in enumerate(instructions) if _inst != 'acc')] if rr[1] >= len(instructions)][0] for instructions in [[(line[:3], int(line[4:-1])) for line in f]]][0])
 
+print('\nDay 9:')
+with open('day9/input.txt') as f: print([[n for i,n in enumerate(numbers[25:]) if not any(sum(c) == n for c in combinations(numbers[i:25 + i], 2))][0] for numbers in [[int(line[:-1]) for line in f]]][0])
+with open('day9/input.txt') as f: print((lambda invalid_number, numbers: [arr[0] for arr in [[max(numbers[i:j]) + min(numbers[i:j]) for j in takewhile(lambda j: sum(numbers[i:j]) <= invalid_number, range(i + 1, len(numbers))) if sum(numbers[i:j]) == invalid_number] for i in range(len(numbers))] if len(arr) > 0][0])(*[[[n, numbers] for i,n in enumerate(numbers[25:]) if not any(sum(c) == n for c in combinations(numbers[i:25 + i], 2))][0] for numbers in [[int(line[:-1]) for line in f]]][0]))
